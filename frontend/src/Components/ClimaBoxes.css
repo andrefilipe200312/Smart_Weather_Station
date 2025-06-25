@@ -1,0 +1,128 @@
+.clima-boxes-container {
+  padding: 0;
+  margin: 0;
+}
+
+.clima-boxes-title {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.clima-boxes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.clima-boxes-grid > .clima-box:nth-child(5) {
+  grid-column: 1 / -1; 
+  justify-self: center;
+}
+
+.clima-box {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0 auto;
+}
+
+.clima-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.clima-box-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.clima-box-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #007bff;
+  margin: 15px 0;
+  line-height: 1.2;
+}
+
+.clima-box-value.no-data {
+  color: #6c757d;
+  font-size: 18px;
+  font-style: italic;
+}
+
+.clima-timestamp {
+  text-align: center;
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 20px;
+  font-style: italic;
+  margin-top: 50px;
+}
+
+.clima-loading {
+  text-align: center;
+  color: #6c757d;
+  margin: 40px 0;
+  font-size: 16px;
+}
+
+.clima-loading::after {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border: 2px solid #6c757d;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+.clima-error {
+  color: #dc3545;
+  background: #f8d7da;
+  padding: 15px;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  text-align: center;
+  margin: 20px 0;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive: mobile */
+@media (max-width: 768px) {
+  .clima-boxes-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .clima-boxes-grid > .clima-box:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .clima-box {
+    max-width: 100%;
+  }
+}

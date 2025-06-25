@@ -1,0 +1,36 @@
+.home-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Área do mapa */
+.mapa-wrapper {
+  flex: 2;
+  min-width: 600px;
+  max-width: 50%;
+  margin-top: 60px;
+}
+
+/* Área dos dados */
+.clima-wrapper {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Responsivo para ecrãs pequenos */
+@media (max-width: 900px) {
+  .home-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mapa-wrapper,
+  .clima-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+}

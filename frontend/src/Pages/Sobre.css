@@ -1,0 +1,19 @@
+.sobre-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  min-height: calc(100vh - 60px); 
+  background-color: white;
+}
+
+.sobre-caixa {
+  background-color: #d6d6d6;
+  border-radius: 25px;
+  padding: 30px;
+  max-width: 10000px;
+  width: 100%;
+  font-size: 16px;
+  color: #000;
+  box-sizing: border-box;
+}
