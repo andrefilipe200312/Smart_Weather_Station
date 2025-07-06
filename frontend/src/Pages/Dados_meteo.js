@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import dayjs from "dayjs";
 import {
   LineChart,
   Line,
@@ -33,23 +34,47 @@ const DadosMeteo = () => {
     fetchData();
   }, [range]);
 
+  const formatTick = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    if (["-1h", "-6h", "-12h", "-24h"].includes(range)) {
+      return dayjs(date).format("HH:mm");
+    } else {
+      return dayjs(date).format("DD/MM HH:mm");
+    }
+  };
+
   const renderChart = (field, cor) => {
     const chartData = (dados[field] || []).map(item => ({
-      time: new Date(item.time).toLocaleTimeString(),
-      value: item.value,
+      time: item.time,
+      value: item.value ?? null, // mantem os nulls
     }));
 
     return (
-      <div className="grafico-container">
+      <div className="grafico-container" key={field}>
         <h2 className="grafico-titulo">{field}</h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" />
+            <XAxis
+              dataKey="time"
+              tickFormatter={formatTick}
+              minTickGap={30}
+            />
             <YAxis />
-            <Tooltip />
+            <Tooltip
+              labelFormatter={(value) =>
+                dayjs(value).format("DD/MM/YYYY HH:mm")
+              }
+            />
             <Legend />
-            <Line type="monotone" dataKey="value" stroke={cor} dot={false} />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke={cor}
+              dot={false}
+              connectNulls={true}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -65,7 +90,6 @@ const DadosMeteo = () => {
 
   return (
     <div className="pagina-container">
-
       <div className="seletor-range">
         <label>Intervalo:</label>
         <select value={range} onChange={e => setRange(e.target.value)}>

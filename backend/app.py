@@ -57,7 +57,7 @@ def get_clima_aggregated():
           |> range(start: {selected_range})
           |> filter(fn: (r) => r["_measurement"] == "clima")
           |> filter(fn: (r) => r["_field"] == "Humidade" or r["_field"] == "Pluviosidade" or r["_field"] == "Temperatura" or r["_field"] == "Velocidade_vento")
-          |> aggregateWindow(every: 1m, fn: mean, createEmpty: false)
+          |> aggregateWindow(every: 2m, fn: mean, createEmpty: true)
           |> yield(name: "mean")
         '''
         result = query_api.query(query=query)
