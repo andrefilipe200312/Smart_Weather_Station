@@ -1,0 +1,10 @@
+Este projeto tem como objetivo a conceção, desenvolvimento e implementação de uma estação meteorológica baseada numa estrutura previamente existente, capaz de realizar medições meteorológicas em tempo real. O foco principal incide sobre parâmetros como temperatura, humidade, pluviosidade, direção e velocidade do vento.
+
+A motivação para o desenvolvimento deste sistema surge da necessidade de monitorizar com maior precisão as condições meteorológicas em ambientes costeiros e marítimos. Fatores como direção e velocidade do vento, humidade e pluviosidade impactam diretamente a segurança da navegação, as operações portuárias e a gestão de atividades marítimas. Assim, o projeto visa apoiar a tomada de decisões mais seguras e informadas nestes contextos.
+
+A estação utiliza o sensor AHT10 para a recolha de dados de temperatura e humidade, e sensores baseados em reed switches para a medição da direção e velocidade do vento, bem como da pluviosidade. Os dados são processados por um microcontrolador ESP32, que os transmite via protocolo LoRa para um ESP8266. Este, por sua vez, encaminha a informação para um broker MQTT. Utiliza-se o Node-RED como middleware entre o broker MQTT e a base de dados InfluxDB, que é responsável pelo envio dos dados para um website desenvolvido com React (cliente) e Flask (servidor).
+
+O projeto propõe uma solução moderna, fiável e eficiente para o acompanhamento de condições meteorológicas, com aplicações diretas em atividades náuticas, estudos ambientais e investigação científica.
+
+Na fase final, foram realizados diversos testes, destacando-se dois em particular: o primeiro avaliou o alcance da comunicação da estação, obtendo-se aproximadamente 250 metros em ambiente confinado; o segundo analisou a autonomia energética em ambientes sem luminosidade, concluindo-se que a estação pode operar até 72 horas sem exposição solar.
+

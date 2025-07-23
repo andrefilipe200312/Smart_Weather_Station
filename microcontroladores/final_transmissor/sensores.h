@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_AHTX0.h>
+#include <esp_system.h>
 
 extern Adafruit_AHTX0 aht;
 

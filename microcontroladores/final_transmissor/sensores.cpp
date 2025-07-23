@@ -5,7 +5,7 @@
 #define PIN_INT2     4
 #define PIN_BATERIA  33
 #define PCF8574_ANEMO_ADDR  0x20
-#define PCF8574_VENTO_ADDR  0x24
+#define PCF8574_VENTO_ADDR  0x26
 
 const float raioAnemometro = 0.08;
 const float mmPorPulso     = 0.053;
@@ -33,7 +33,8 @@ void IRAM_ATTR handleInterrupt_2() {
 void iniciar_aht10() {
   if (!aht.begin()) {
     Serial.println("Erro ao iniciar AHT10! Reiniciando...");
-    ESP.restart();
+    delay(1000);
+    esp_restart();
   } else {
     Serial.println(" AHT10 iniciado.");
   }
@@ -71,11 +72,14 @@ void verificarPulso() {
   if (!pcfInterrupt_2) return;
   noInterrupts(); pcfInterrupt_2 = false; interrupts();
 
+  unsigned long timeout = millis();
   Wire.requestFrom(PCF8574_VENTO_ADDR, 1);
-  if (Wire.available() == 0) {
-    Serial.println("Falha ao ler PCF8574 (vento). Reiniciando...");
-    delay(1000);
-    ESP.restart();
+  while (Wire.available() == 0) {
+    if (millis() - timeout > 1000) {
+      Serial.println(" Timeout ao ler PCF8574 (vento). Reiniciando...");
+      delay(1000);
+      esp_restart();
+    }
   }
 
   byte estadoPCF = Wire.read();
@@ -95,7 +99,7 @@ int lerDirecaoVento() {
     if (millis() - timeout > 1000) {
       Serial.println(" Timeout ao ler direção do vento. Reiniciando...");
       delay(1000);
-      ESP.restart();
+      esp_restart();
     }
   }
 
@@ -144,7 +148,7 @@ medidas medir_temp() {
       isnan(humidity.relative_humidity) || humidity.relative_humidity <= 0) {
     Serial.println("Erro ao ler temperatura ou humidade. Reiniciando...");
     delay(1000);
-    ESP.restart();
+    esp_restart();
   }
 
   ultimaTemperatura = temp.temperature;

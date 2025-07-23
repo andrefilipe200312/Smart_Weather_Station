@@ -10,10 +10,12 @@
 unsigned long ultimaLeituraVento = 0;
 unsigned long ultimaLeituraPluvio = 0;
 unsigned long ultimaTransmissao = 0;
+unsigned long ultimaVerificacaoReset = 0;
 
 unsigned long intervaloVento  = 60000;
 unsigned long intervaloPluvio = 60000;
 unsigned long intervaloEnvio  = 120000;
+unsigned long intervaloReset  = 86400000UL;  // 24 horas
 
 float velocidadeVento = 0;
 float pluviosidade = 0;
@@ -29,17 +31,25 @@ void setup() {
   LoRa.setPins(SS, RST, DIO0);
   if (!LoRa.begin(433E6)) {
     Serial.println("Erro ao iniciar LoRa!");
-    ESP.restart();
+    esp_restart();
   }
   Serial.println("LoRa iniciado.");
 
   ultimaLeituraVento = millis();
   ultimaLeituraPluvio = millis();
   ultimaTransmissao = millis();
+  ultimaVerificacaoReset = millis();
 }
 
 void loop() {
   unsigned long agora = millis();
+
+  if (agora - ultimaVerificacaoReset > intervaloReset) {
+    Serial.println("Reset diario preventivo.");
+    delay(1000);
+    esp_restart();
+  }
+
   verificarPulso();
 
   if (agora - ultimaLeituraVento >= intervaloVento) {
@@ -67,11 +77,20 @@ void loop() {
 
     Serial.println("Enviando: " + mensagem);
     digitalWrite(LED_PIN, HIGH);
-    LoRa.beginPacket();
-    LoRa.print(mensagem);
-    LoRa.endPacket();
-    digitalWrite(LED_PIN, LOW);
 
+    if (LoRa.beginPacket() == 0) {
+      Serial.println("Erro ao iniciar pacote LoRa. Reiniciando...");
+      delay(1000);
+      esp_restart();
+    }
+    LoRa.print(mensagem);
+    if (LoRa.endPacket() == 0) {
+      Serial.println("Erro ao terminar pacote LoRa. Reiniciando...");
+      delay(1000);
+      esp_restart();
+    }
+
+    digitalWrite(LED_PIN, LOW);
     ultimaTransmissao = agora;
   }
 }
