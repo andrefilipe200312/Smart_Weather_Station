@@ -1,0 +1,4 @@
+Na pasta backend encontram-se todos os ficheiros necessários ao funcionamento do servidor flask
+Na pasta frontend encontram-se todos os ficheiros necessários ao funcionamneto do cliente React
+Na pasta microcontroladores encontram-se os codigos necessários para colocar em funcionamento a estação meteorológica e o recetor LoRa 
+Por ultimo na pasta impressao_3d encontramos todos os ficheiros necessários para a impressão 3d de sensores como os que utilizamos neste projeto
